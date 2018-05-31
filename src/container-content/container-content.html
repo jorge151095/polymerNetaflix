@@ -1,0 +1,100 @@
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../../src/list-container/list-container.html">
+
+<dom-module id="container-content">
+    <template>
+        <style>
+            h2 {
+                margin: 0;
+            }
+
+            .home {
+                display: block;
+            }
+        </style>
+
+        <div class = "home">
+            <list-container 
+                url = "[[urlBase]]discover/tv?api_key=[[apiKey]]&language=en-US&sort_by=popularity.desc&include_video=false&page=1" 
+                quantity = "8" 
+                tittle = "Discover recent movie"
+                search-status= "false" 
+                ></list-container>
+            <list-container 
+                url = "[[urlBase]]discover/movie?api_key=[[apiKey]]&language=en-US&sort_by=popularity.desc&include_video=false&page=1" 
+                quantity = "8" 
+                tittle = "Discover recent tv"
+                search-status = "false" 
+            ></list-container>
+            <list-container 
+                url = "[[urlBase]]discover/movie?api_key=[[apiKey]]&language=en-US&sort_by=popularity.desc&include_video=false&page=1&with_genres=28" 
+                quantity = "8" 
+                tittle = "Action"
+                search-status = "false" 
+            ></list-container>
+            <list-container 
+                url = "[[urlBase]]discover/movie?api_key=[[apiKey]]&language=en-US&sort_by=popularity.desc&include_video=false&page=1&with_genres=12" 
+                quantity = "8" 
+                tittle = "Adventure"
+                search-status = "false" 
+            ></list-container>
+            <list-container 
+                url = "[[urlBase]]discover/movie?api_key=[[apiKey]]&language=en-US&sort_by=popularity.desc&include_video=false&page=1&with_genres=16" 
+                quantity = "8" 
+                tittle = "Animation"
+                search-status = "false" 
+            ></list-container>
+
+        </div>
+        <div class = "searchContent">
+            <list-container 
+                url = "[[urlBase]]search/multi?api_key=[[apiKey]]&language=en-US&query=[[search]]&page=1&include_adult=true" 
+                search-status = "true" 
+                tittle = "Results for "
+                query = "[[search]]"
+            ></list-container>
+        </div>
+
+    </template>
+    <script>
+        class ContainerContent extends Polymer.Element{
+            static get is () { return 'container-content';}
+            static get properties() {
+                return {
+                    search: {
+                        type: String,
+                        observer: 'updateSearch'
+                    },
+                    urlBase: {
+                        type: String,
+                        value: 'https://api.themoviedb.org/3/'
+                    },
+                    typeDiscover: {
+                        type: String,
+                        value: '',
+                        notify: true
+                    },
+                    apiKey: {
+                        type: String,
+                        value: 'b9b03a337e2eb2c204bd6871eae722d9'  
+                    }
+                };
+            }
+      
+            updateSearch(){
+                if (this.search != '') {
+                    const ShadowDomHome = this.shadowRoot.querySelector('.home');
+                    const ShadowDomSearchContent = this.shadowRoot.querySelector('.searchContent');
+                    ShadowDomHome.style.display = 'none';
+                    ShadowDomSearchContent.style.display = 'block';
+                }else{
+                    const ShadowDomHome = this.shadowRoot.querySelector('.home');
+                    const ShadowDomSearchContent = this.shadowRoot.querySelector('.searchContent');
+                    ShadowDomHome.style.display = 'block';
+                    ShadowDomSearchContent.style.display = 'none';
+                }
+            }     
+        }
+        customElements.define(ContainerContent.is,ContainerContent);
+    </script>
+</dom-module>

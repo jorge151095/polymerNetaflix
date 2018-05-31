@@ -1,0 +1,42 @@
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../nav-bar/nav-bar.html">
+<link rel="import" href="../container-content/container-content.html">
+
+<dom-module id="netflix-app">
+  <template>
+    <style>
+      .container {
+        padding-top: 68px;
+      }
+    </style>
+    <nav-bar on-search-changed = "searchChange"></nav-bar>
+    <div class="container">
+      <container-content search = "[[search]]"></container-content>
+    </div>
+      
+  </template>
+
+  <script>
+    /**
+     * @customElement
+     * @polymer
+     */
+    class NetflixApp extends Polymer.Element {
+      static get is() { return 'netflix-app'; }
+      static get properties() {
+        return {
+          search: {
+              type: String,
+              value: ''
+          }
+        };
+      }
+
+      searchChange(event) {
+        this.search = event.detail.value;
+      }
+    }
+
+    window.customElements.define(NetflixApp.is, NetflixApp);
+  </script>
+</dom-module>

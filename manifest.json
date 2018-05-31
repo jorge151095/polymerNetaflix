@@ -1,0 +1,7 @@
+{
+  "name": "netflix",
+  "short_name": "netflix",
+  "description": "replicate netflix",
+  "start_url": "/",
+  "display": "standalone"
+}

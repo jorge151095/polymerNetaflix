@@ -1,0 +1,199 @@
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../modal-container/modal-container.html">
+
+<dom-module id="list-container">
+    <template>
+        <style>
+            * {
+                margin: 0;
+            }
+
+            .container {
+                box-sizing: border-box;
+                background-color: black;    
+                font-family: 'Font', 'Tajawal', sans-serif;
+                color: rgb(244, 236, 236);
+            }
+            
+            .image {
+                text-align: center;
+                display: inline-block;
+            }
+
+            .image img{
+                width: 23vmax;
+                margin: 0 0 0 0;
+                transition: width 1.2s ease;
+                position: relative;
+            }
+
+            a {
+                display: inline-block;
+                padding-left: 1vmax;
+                margin-bottom: 10px;
+                font-size: 24px;
+            }
+            
+            .item {
+                display: inline;
+            }
+
+            .content-image {
+                display: inline-block;
+                position: relative;
+            }
+
+            .content-image p{
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                color: rgba(0, 0, 0, 0);
+            }
+
+            .content-image img:hover{
+                width: 28vmax;
+                filter:brightness(0.7);
+            }
+            
+        </style>
+
+        <div class="container">
+            <br>
+            <br>
+            <a><b>[[tittle]]</b></a>
+            <div class = "image">
+            <template is="dom-repeat" items="[[listItems]]" as="column">
+                <div class = "item">
+                    <div class = "content-image">
+                        <img src="[[column.backdrop_path]]" on-click="listenerModal">
+                        <!--<p>[[column.original_title]][[column.original_name]]</p>-->
+                    </div>
+                </div>
+            </template>
+            </div>
+        </div>
+        
+        <modal-container movie="[[movie]]" active="[[active]]" on-active-changed="modifyActive"></modal-container>
+
+        <iron-ajax
+            id="getHome"
+            url="[[url]]"
+            params='{}'
+            handle-as="json"
+            on-response="handleResponseGetHome"
+            on-error="handleErrorGetHome"
+            debounce-duration="300">
+        </iron-ajax>
+    
+    </template>
+    <script>
+        class ListContainer extends Polymer.Element{
+            static get is () { return 'list-container';}
+            static get properties() {
+                return{
+                    listItems: {
+                        type: Array,
+                        value: []
+                    },
+                    path: {
+                        type: String,
+                        value: ''
+                    },
+                    urlBase: {
+                        type: String,
+                        value: 'https://image.tmdb.org/t/p/w400'
+                    },
+                    movie: {
+                        type: Object,
+                        value: {}
+                    },
+                    active: {
+                        type: Boolean,
+                        value: false
+                    },
+                    quantity: {
+                        type: Number,
+                        value: 0
+                    },
+                    url: {
+                        type: String,
+                        value: '',
+                        observer: 'searchConsult'
+                    },
+                    searchStatus: {
+                        type: String,
+                        value: ''
+                    },
+                    tittle: {
+                        type: String,
+                        value: ''
+                    },
+                    query: {
+                        type: String,
+                        value: ''
+                    }
+                }
+            }
+
+            /**
+            * @description  call to new search update
+            */
+            searchConsult() {
+                if (this.searchStatus == "true" && this.query != "")
+                    this.$.getHome.generateRequest();
+            }
+            
+            /**
+            * @description  handle response after get Home
+            */
+            handleResponseGetHome(event) {
+                if (this.searchStatus == "false"){
+                    this.listItems = event.detail.response.results.slice(0,this.quantity);
+                    for(const item of this.listItems){
+                        if (item.backdrop_path != null)
+                            item.backdrop_path = this.urlBase + item.backdrop_path;
+                        else
+                            item.backdrop_path = '../../img/movie.jpg';
+                    }
+                }else{
+                    this.listItems = event.detail.response.results;
+                    for(const item of this.listItems){
+                        if (item.backdrop_path != null)
+                            item.backdrop_path = this.urlBase + item.backdrop_path;
+                        else
+                            item.backdrop_path = '../../img/movie.jpg';
+                    }
+                }
+            }
+
+            /**
+            * @description  handle error after get Home
+            */
+            handleErrorGetHome(event) {
+                console.log(`FAIL ${event}`);
+            }
+
+            /**
+            * @description  listen on tap event, to show modal
+            */
+            listenerModal(event){
+                this.active = true;
+                this.movie = event.model.__data.column; 
+            }
+            
+            modifyActive(event){
+                this.active = event.detail.value;
+            }
+
+            connectedCallback() {
+                super.connectedCallback();
+                if (this.searchStatus == "false")
+                    this.$.getHome.generateRequest();
+            }
+        }
+
+        customElements.define(ListContainer.is, ListContainer);
+    </script>
+</dom-module>

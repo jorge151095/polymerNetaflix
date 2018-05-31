@@ -1,0 +1,158 @@
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../../bower_components/iron-input/iron-input.html">
+
+<dom-module id="nav-bar">
+    <template>
+        <style>
+            :host {
+                display: block;
+            }
+            
+            :root {
+                --negro: rgb(0, 0, 0);
+            }
+
+            /*@font-face {
+                font-family: 'Font';
+                src: url('../../fonts/GothamLight.ttf')  format('truetype');
+            }*/
+
+            .navbar {
+                display: inline-block;
+                position: fixed;
+                z-index:2;
+                width: 100vmax;
+            }
+
+            .navbar *{
+                font-family: 'Font', 'Tajawal', sans-serif;
+            }
+
+            .ul-left {
+                box-sizing: border-box;
+                display: flex;
+                float: left;
+                align-items: center;
+                list-style-type: none;
+                margin: 0;
+                padding: 0;
+                overflow: hidden;
+                background-color: rgb(0, 0, 0);
+                height: 68px;
+                width: 65%;
+            }
+
+            .ul-right {
+                box-sizing: border-box;
+                display: flex;
+                float: left;
+                align-items: center;
+                list-style-type: none;
+                margin: 0;
+                padding: 0;
+                background-color: rgb(0, 0, 0);
+                height: 68px;
+                width: 35%;
+            }
+
+            li {
+                float: left;
+            }
+
+            li a {
+                color: white;
+                text-align: center;
+                padding: 11px 16px 11px 16px;
+                text-decoration: none;
+            }
+
+            /* Change the link color to #111 (black) on hover */
+            li a:hover {
+                background-color: rgb(0, 0, 0);
+            }
+
+            .navbar-picture img{
+                padding-left: 41px;
+                padding-right: 20px;
+                height: 35px;
+            }
+
+            .navbar-picture__search img{
+                padding-left: 41px;
+                padding-right: 5px;
+                height: 20px;
+                padding-top: 6px;
+            }
+
+            .tags-input {
+                border: 2px solid #dfdfdf;
+                background-color: black;
+                border-radius: 40px;
+                height: 40px;
+                padding: 0 11px;
+                font-size: 14px;
+                display: flex;
+                align-items: center;
+                overflow: hidden;
+                color: white;
+            }
+
+            .tags-input::after {
+                content: "";
+                background: #888;
+                width: 1px;
+                height: 19px;
+                margin: -1px 0 0 -1px;
+                display: none;
+                -webkit-animation: blink 0.5s infinite alternate;
+                        animation: blink 0.5s infinite alternate;
+            }
+
+            .tags-input:focus {
+                border-color: #71ccd5;
+                outline: none;
+            }
+
+
+        </style>
+        
+        <container class="navbar">
+            <ul class="ul-left">
+                <li class="navbar-picture">
+                    <img src="../../img/logo.jpg" />
+                </li>
+                <li><a href="">Descubrir</a></li>
+                <li><a href="">Películas</a></li>
+                <li><a href="">Series de TV</a></li>
+            </ul> 
+            <ul class="ul-right">
+                <li class="navbar-picture__search">
+                    <img src="../../img/search.png" />
+                </li>
+                <li>
+                    <iron-input>
+                        <input value="{{search::input}}" class="tags-input">
+                    </iron-input>
+                </li>
+                <li class="navbar-picture">
+                    <img src="../../img/user.png" />
+                </li>
+            </ul> 
+        </container>
+    </template>
+    <script>
+        class NavBar extends Polymer.Element{
+            static get is () { return 'nav-bar';}
+            static get properties() {
+                return{
+                    search: {
+                        type: String,
+                        value: '',
+                        notify: true
+                    }
+                }
+            }
+        }
+        customElements.define(NavBar.is,NavBar);
+    </script>
+</dom-module>
