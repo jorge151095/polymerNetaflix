@@ -3,7 +3,10 @@
   "description": "replicate netflix",
   "main": "index.html",
   "dependencies": {
-    "polymer": "Polymer/polymer#^2.0.0"
+    "polymer": "Polymer/polymer#^2.0.0",
+    "iron-ajax": "polymerElements/iron-ajax#^2.1.3",
+    "app-route": "polymerElements/app-route#^2.1.1",
+    "iron-pages": "polymerElements/iron-pages#^2.1.1"
   },
   "devDependencies": {
     "web-component-tester": "Polymer/web-component-tester#^6.0.0",

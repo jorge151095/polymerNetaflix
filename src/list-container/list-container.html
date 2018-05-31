@@ -68,7 +68,6 @@
                 <div class = "item">
                     <div class = "content-image">
                         <img src="[[column.backdrop_path]]" on-click="listenerModal">
-                        <!--<p>[[column.original_title]][[column.original_name]]</p>-->
                     </div>
                 </div>
             </template>
@@ -179,8 +178,8 @@
             * @description  listen on tap event, to show modal
             */
             listenerModal(event){
-                this.active = true;
                 this.movie = event.model.__data.column; 
+                this.active = true;
             }
             
             modifyActive(event){

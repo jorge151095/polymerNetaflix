@@ -1,4 +1,6 @@
 <link rel="import" href="../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../video-component/video-component.html">
+<link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
 
 <dom-module id="modal-container">
     <template>
@@ -32,7 +34,7 @@
 
             .text {
                 width: 40vmax;
-                padding: 5vmax;
+                padding: 5vmax 0 0 5vmax;
                 text-align : justify;
             }
 
@@ -45,6 +47,14 @@
             .modal-close img {
                 width: 30px;
                 height: 30px;
+            }
+
+            .video {
+                padding: 1vmax 0 0 5vmax;
+            }
+
+            h3 {
+                margin: 2vmax 0 1vmax 0;
             }
 
         </style>
@@ -68,9 +78,19 @@
                     <h3>Popularity</h3>
                     <a>[[movie.popularity]]</a>
                 </div>
+                <video-component class = "video" id-you-tube = "[[idYT]]"></video-component>
             </div>
         </div>
-    
+        
+        <iron-ajax
+            id = "getIdVideo"
+            url = "https://api.themoviedb.org/3/[[typeSearch]]/[[movie.id]]/videos?api_key=b9b03a337e2eb2c204bd6871eae722d9&language=en-US"
+            params = '{}'
+            handle-as = "json"
+            on-response = "handleResponseGetVideo"
+            on-error = "handleErrorGetVideo"
+            debounce-duration = "300">
+        </iron-ajax>
     </template>
     <script>
         class ModalContainer extends Polymer.Element{
@@ -90,6 +110,14 @@
                         value: false,
                         observer: 'updateModal',
                         notify: true
+                    },
+                    idYT: {
+                        type: String,
+                        value: ''
+                    },
+                    typeSearch: {
+                        type: String,
+                        value: ''
                     }
                 }
             }
@@ -104,6 +132,13 @@
                 const ShadowDomModal = this.shadowRoot.querySelector('.modalContainer');
                 ShadowDomModal.style.display = 'flex';
                 this.urlBase = 'https://image.tmdb.org/t/p/w400';
+                if (Object.keys(this.movie).length !== 0){
+                    if (this.movie.hasOwnProperty('release_date'))
+                        this.typeSearch = 'movie';
+                    else
+                        this.typeSearch = 'tv';
+                    this.$.getIdVideo.generateRequest();
+                }
             }
 
             updateModal() {
@@ -111,6 +146,10 @@
                     this.showModal();
                 else
                     this.hideModal();
+            }
+            
+            handleResponseGetVideo(event) {
+                this.idYT  = event.detail.response.results[0].key;
             }
 
             connectedCallback() {

@@ -1,0 +1,37 @@
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
+
+<dom-module id="video-component">
+    <template>
+        <style>
+        </style>    
+    
+        <iframe
+            width = "400" 
+            height = "250" 
+            src = "https://www.youtube.com/embed/[[idYouTube]]" 
+            frameborder = "0" 
+            allow = "autoplay;encrypted-media" 
+            allowfullscreen>
+        </iframe>
+
+    </template>
+    <script>
+        class VideoComponent extends Polymer.Element{
+            static get is () { return 'video-component';}
+            static get properties() {
+                return{
+                    idYouTube: {
+                        type: String,
+                        value: ''   
+                    }
+                }
+            }
+            
+            connectedCallback() {
+                super.connectedCallback();
+            }
+
+        }
+        customElements.define(VideoComponent.is, VideoComponent);
+    </script>
+</dom-module>
