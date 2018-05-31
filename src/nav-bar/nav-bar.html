@@ -1,5 +1,6 @@
 <link rel="import" href="../../bower_components/polymer/polymer-element.html">
 <link rel="import" href="../../bower_components/iron-input/iron-input.html">
+<link rel="import" href="../../bower_components/app-route/app-route.html">
 
 <dom-module id="nav-bar">
     <template>
@@ -116,29 +117,35 @@
 
         </style>
         
-        <container class="navbar">
-            <ul class="ul-left">
-                <li class="navbar-picture">
-                    <img src="../../img/logo.jpg" />
-                </li>
-                <li><a href="">Descubrir</a></li>
-                <li><a href="">Películas</a></li>
-                <li><a href="">Series de TV</a></li>
-            </ul> 
-            <ul class="ul-right">
-                <li class="navbar-picture__search">
-                    <img src="../../img/search.png" />
-                </li>
-                <li>
-                    <iron-input>
-                        <input value="{{search::input}}" class="tags-input">
-                    </iron-input>
-                </li>
-                <li class="navbar-picture">
-                    <img src="../../img/user.png" />
-                </li>
-            </ul> 
-        </container>
+        <iron-selector  
+            selected="{{routePage.page}}" 
+            attr-for-selected="name" 
+            role="navigation" >
+
+            <container class="navbar">
+                <ul class="ul-left">
+                    <li class="navbar-picture">
+                        <img src="../../img/logo.jpg" />
+                    </li>
+                    <li><a href="home" name="home">Discover</a></li>
+                    <li><a href="movie" name = "movie">Movies</a></li>
+                    <li><a href="tv" name = "tv">tv</a></li>
+                </ul> 
+                <ul class="ul-right">
+                    <li class="navbar-picture__search">
+                        <img src="../../img/search.png" />
+                    </li>
+                    <li>
+                        <iron-input>
+                            <input value="{{search::input}}" class="tags-input">
+                        </iron-input>
+                    </li>
+                    <li class="navbar-picture">
+                        <img src="../../img/user.png" />
+                    </li>
+                </ul> 
+            </container>
+        </iron-selector>
     </template>
     <script>
         class NavBar extends Polymer.Element{

@@ -1,6 +1,10 @@
 <link rel="import" href="../../bower_components/polymer/polymer-element.html">
 <link rel="import" href="../nav-bar/nav-bar.html">
 <link rel="import" href="../container-content/container-content.html">
+<link rel="import" href="../search-content/search-content.html">
+<link rel="import" href="../../bower_components/iron-pages/iron-pages.html">
+<link rel="import" href="../../bower_components/app-route/app-location.html">
+<link rel="import" href="../../bower_components/app-route/app-route.html">
 
 <dom-module id="netflix-app">
   <template>
@@ -9,11 +13,77 @@
         padding-top: 68px;
       }
     </style>
+    <app-location route="{{route}}"></app-location>
+    
+    <app-route
+      route="{{route}}"
+      pattern="/:page"
+      data="{{routePage}}"
+      tail="{{subroute}}"
+    ></app-route>
+
     <nav-bar on-search-changed = "searchChange"></nav-bar>
-    <div class="container">
-      <container-content search = "[[search]]"></container-content>
-    </div>
-      
+
+    <iron-pages 
+      selected="{{routePage.page}}" 
+      attr-for-selected="name" 
+      fallback-selection="home"
+      role="main">
+
+      <div class="container" name="home">
+        <container-content 
+          search = "[[search]]"
+          array-search-container = 
+          '[
+            {"url" : "https://api.themoviedb.org/3/discover/movie?api_key=b9b03a337e2eb2c204bd6871eae722d9&language=en-US&sort_by=popularity.desc&include_video=true&page=1", "quantity" : "8", "tittle" : "Discover recent movie", "search-status" : "false"},
+            {"url" : "https://api.themoviedb.org/3/discover/tv?api_key=b9b03a337e2eb2c204bd6871eae722d9&language=en-US&sort_by=popularity.desc&include_video=true&page=1", "quantity" : "8", "tittle" : "Discover recent tv", "search-status" : "false"},
+            {"url" : "https://api.themoviedb.org/3/discover/movie?api_key=b9b03a337e2eb2c204bd6871eae722d9&language=en-US&sort_by=popularity.desc&include_video=true&page=1&with_genres=28", "quantity" : "8", "tittle" : "Action movies", "search-status" : "false"},
+            {"url" : "https://api.themoviedb.org/3/discover/tv?api_key=b9b03a337e2eb2c204bd6871eae722d9&language=en-US&sort_by=popularity.desc&include_video=true&page=1&with_genres=28", "quantity" : "8", "tittle" : "Action tv", "search-status" : "false"},
+            {"url" : "https://api.themoviedb.org/3/discover/movie?api_key=b9b03a337e2eb2c204bd6871eae722d9&language=en-US&sort_by=popularity.desc&include_video=true&page=1&with_genres=12", "quantity" : "8", "tittle" : "Adventure movies", "search-status" : "false"},
+            {"url" : "https://api.themoviedb.org/3/discover/movie?api_key=b9b03a337e2eb2c204bd6871eae722d9&language=en-US&sort_by=popularity.desc&include_video=true&page=1&with_genres=16", "quantity" : "8", "tittle" : "Animation movies", "search-status" : "false"}
+          ]'
+        ></container-content>
+      </div>
+
+      <div class="container" name="movie">
+        <container-content 
+          search = "[[search]]"
+          array-search-container = 
+          '[
+            {"url" : "https://api.themoviedb.org/3/discover/movie?api_key=b9b03a337e2eb2c204bd6871eae722d9&language=en-US&sort_by=popularity.desc&include_video=true&page=1", "quantity" : "8", "tittle" : "Discover recent movie", "search-status" : "false"},
+            {"url" : "https://api.themoviedb.org/3/discover/movie?api_key=b9b03a337e2eb2c204bd6871eae722d9&language=en-US&sort_by=popularity.desc&include_video=true&page=1&with_genres=28", "quantity" : "8", "tittle" : "Action movie", "search-status" : "false"},
+            {"url" : "https://api.themoviedb.org/3/discover/movie?api_key=b9b03a337e2eb2c204bd6871eae722d9&language=en-US&sort_by=popularity.desc&include_video=true&page=1&with_genres=12", "quantity" : "8", "tittle" : "Adventure movie", "search-status" : "false"},
+            {"url" : "https://api.themoviedb.org/3/discover/movie?api_key=b9b03a337e2eb2c204bd6871eae722d9&language=en-US&sort_by=popularity.desc&include_video=true&page=1&with_genres=16", "quantity" : "8", "tittle" : "Animation movie", "search-status" : "false"}
+          ]'
+        ></container-content>
+      </div>
+
+      <div class="container" name="tv">
+        <container-content 
+          search = "[[search]]"
+          array-search-container = 
+          '[
+            {"url" : "https://api.themoviedb.org/3/discover/tv?api_key=b9b03a337e2eb2c204bd6871eae722d9&language=en-US&sort_by=popularity.desc&include_video=true&page=1", "quantity" : "8", "tittle" : "Discover recent tv", "search-status" : "false"},
+            {"url" : "https://api.themoviedb.org/3/discover/tv?api_key=b9b03a337e2eb2c204bd6871eae722d9&language=en-US&sort_by=popularity.desc&include_video=true&page=1&with_genres=28", "quantity" : "8", "tittle" : "Action tv", "search-status" : "false"},
+            {"url" : "https://api.themoviedb.org/3/discover/tv?api_key=b9b03a337e2eb2c204bd6871eae722d9&language=en-US&sort_by=popularity.desc&include_video=true&page=1&with_genres=12", "quantity" : "8", "tittle" : "Adventure tv", "search-status" : "false"},
+            {"url" : "https://api.themoviedb.org/3/discover/tv?api_key=b9b03a337e2eb2c204bd6871eae722d9&language=en-US&sort_by=popularity.desc&include_video=true&page=1&with_genres=16", "quantity" : "8", "tittle" : "Animation tv", "search-status" : "false"}
+          ]'
+        ></container-content>
+      </div>
+
+
+
+      <div class = "container" name="searchPage">
+          <search-content 
+          search = "[[search]]"
+          url = "[[urlBase]]search/multi?api_key=[[apiKey]]&language=en-US&query=[[search]]&page=1&include_adult=true"
+          query = "[[search]]"
+          api-key = "[[apiKey]]"
+        ></search-content>
+      </div>
+
+    </iron-pages>
+
   </template>
 
   <script>
@@ -28,12 +98,25 @@
           search: {
               type: String,
               value: ''
+          },
+          urlBase: {
+            type: String,
+            value: 'https://api.themoviedb.org/3/'
+          },
+          apiKey: {
+              type: String,
+              value: 'b9b03a337e2eb2c204bd6871eae722d9'  
           }
         };
       }
 
       searchChange(event) {
         this.search = event.detail.value;
+        if (this.search != ''){
+          this.set("route.path", "/searchPage");
+        }else {
+          this.set("route.path", "/home");
+        }
       }
     }
 

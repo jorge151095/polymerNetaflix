@@ -1,0 +1,45 @@
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../../src/list-container/list-container.html">
+
+<dom-module id="search-content">
+    <template>
+        <style>
+        </style>
+        
+        <div class = "searchContent">
+            <list-container 
+                url = "[[url]]" 
+                search-status = "true" 
+                tittle = "Results for [[search]]"
+                query = "[[search]]"
+            ></list-container>
+        </div>
+
+    </template>
+    <script>
+        class SearchContent extends Polymer.Element{
+            static get is () { return 'search-content';}
+            static get properties() {
+                return {
+                    search: {
+                        type: String,
+                        value: ''
+                    },
+                    url: {
+                        type: String,
+                        value: ''
+                    },
+                    apiKey: {
+                        type: String,
+                        value: ''
+                    }
+                };
+            }
+    
+            connectedCallback() {
+                super.connectedCallback();
+            }
+        }
+        customElements.define(SearchContent.is,SearchContent);
+    </script>
+</dom-module>
